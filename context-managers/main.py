@@ -6,7 +6,9 @@ insert_into_table_sql_statement = "INSERT INTO books VALUES ('If Tomorrow Comes'
 select_from_table_sql_statement = 'SELECT * FROM books'
 
 def main():
-    with Database('memory') as db:
+    database_path = ':memory:'
+    
+    with Database(database_path) as db:
         db.cursor.execute(create_table_sql_statement)
         db.connection.commit()
         
@@ -16,6 +18,22 @@ def main():
         db.cursor.execute(select_from_table_sql_statement)
 
         print(db.cursor.fetchall())
+        
+    with database(database_path) as db:
+        cursor = db.get('cursor')
+        connection = db.get('connection')
+        
+        if cursor and connection:
+            cursor.execute(create_table_sql_statement)
+            connection.commit()
+            
+            cursor.execute(insert_into_table_sql_statement)
+            connection.commit()
+            
+            cursor.execute(select_from_table_sql_statement)
+            print(cursor.fetchall())
+        else:
+            print("Cursor or connection not found.")
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,8 @@
 import sqlite3
+from contextlib import contextmanager
 
 class Database:
+    # OOP type context manager
     def __init__(self, path: str):
         self.path = path
     
@@ -14,3 +16,15 @@ class Database:
             print(f'an error occurred: {exc_val}')
             
         self.connection.close()
+
+@contextmanager
+def database(path: str):
+    # Generator based context manager
+    connection = sqlite3.connect(path)
+    try:
+        cursor = connection.cursor()
+        yield {'connection': connection, 'cursor': cursor}
+    except Exception as e:
+        print(f'an error occurred: {e}') 
+    finally:
+        connection.close()
