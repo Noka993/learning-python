@@ -11,6 +11,7 @@ async def main():
     task = fetch_data(2)
     print("End of main coroutine")
     
+    # task doesn't run yet. It has to be awaited
     result = await task
     print(f"Received result: {result}")
 

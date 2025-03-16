@@ -1,6 +1,6 @@
 import asyncio
 
-#Counter productive example which makes the code run 4s instead of 2s
+# Counter productive example which makes the code run 4s instead of 2s
 async def fetch_data(delay, id):
     print("Fetching data... id:", id)
     await asyncio.sleep(delay)
